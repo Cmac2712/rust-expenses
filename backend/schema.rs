@@ -1,6 +1,17 @@
 // @generated automatically by Diesel CLI.
 
 diesel::table! {
+    premises (id) {
+        id -> Int4,
+        name -> Text,
+        address -> Text,
+        user_id -> Int4,
+        created_at -> Timestamptz,
+        updated_at -> Timestamptz,
+    }
+}
+
+diesel::table! {
     role_permissions (role, permission) {
         role -> Text,
         permission -> Text,
@@ -55,11 +66,13 @@ diesel::table! {
     }
 }
 
+diesel::joinable!(premises -> users (user_id));
 diesel::joinable!(user_permissions -> users (user_id));
 diesel::joinable!(user_roles -> users (user_id));
 diesel::joinable!(user_sessions -> users (user_id));
 
 diesel::allow_tables_to_appear_in_same_query!(
+    premises,
     role_permissions,
     todos,
     user_permissions,
